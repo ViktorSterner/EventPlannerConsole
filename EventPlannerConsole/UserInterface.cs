@@ -78,9 +78,31 @@ namespace EventPlannerConsole
 
             newEvent.Location = GetEventLocation();
 
-            CreateEventCategory();
+            newEvent.ID = _eventPlannerEngine.CreateEvent(newEvent);
 
-            CreateEventTickets();
+
+
+            CreateEventCategory(newEvent.ID);
+
+            Console.WriteLine("Vill du lägga till en till kategori?");
+
+            string answer = Console.ReadLine();
+
+            while (answer.ToLower() == "yes")
+            {
+                switch (answer)
+                {
+                    case "yes":
+                        CreateEventCategory(newEvent.ID);
+                        break;
+                    case "no":
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            //CreateEventTickets(newEvent.ID);
 
 
             return newEvent;
@@ -119,7 +141,7 @@ namespace EventPlannerConsole
 
             }
 
-            return theEventCategory;    
+            return theEventCategory;
         }
 
         private Location GetEventLocation()

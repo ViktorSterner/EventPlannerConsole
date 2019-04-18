@@ -10,7 +10,7 @@ namespace EventPlannerConsole
     public class DatabaseInterface
     {
         public string Source { get; set; } = "(LocalDB)\\MSSQLLocalDB";
-        public string User { get; set; } = "sa";
+        public string User { get; set; } = "admin";
         public string Password { get; set; } = "admin";
         public SqlConnection Connection { get; set; }
 
@@ -56,6 +56,26 @@ namespace EventPlannerConsole
 
             //Console.WriteLine("All done. Press any key to finish...");
             //Console.ReadKey(true);
+        }
+
+        internal int GetEventIdByName(string name)
+        {
+            String sqlQ = $"SELECT [ID] FROM [Event] WHERE [Event].[Name] = '{name}'";
+
+            int result = 0;
+
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        result = reader.GetInt32(0);
+                    }
+                }
+            }
+
+            return result;
         }
 
         public List<User> GetUsers()
@@ -147,13 +167,9 @@ namespace EventPlannerConsole
 
         public void SaveEvent(Event _event)
         {
-            //var locationID = _event.Location.ID;
-            //var time = _event.Time;
-            //var name = _event.Name;
-
-            var locationID = 9;
-            var time = DateTime.Now;
-            var name = "eventNAME";
+            var locationID = _event.Location.ID;
+            var time = _event.Time;
+            var name = _event.Name;
 
             string sqlQ = string.Format("INSERT into Event ([Name],LocationID,[Time]) VALUES ('{0}', '{1}','{2}')", name, locationID, time);
         
@@ -162,7 +178,6 @@ namespace EventPlannerConsole
                 // 4 rows effected
                 // command.ExecuteNonQuery();
             }
-
             
         }
 

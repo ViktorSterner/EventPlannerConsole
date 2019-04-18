@@ -44,11 +44,19 @@ namespace EventPlannerConsole
 
         }
 
-        public void CreateEvent(Event _event)
+        /// <summary>
+        /// Saves in DB and return event ID from DB
+        /// </summary>
+        /// <param name="_event"></param>
+        /// <returns>Event ID</returns>
+        public int CreateEvent(Event _event)
         {
             // Check if legit
             dbInterface.SaveEvent(_event);
+            
+            return dbInterface.GetEventIdByName(_event.Name);
         }
+
         
     }
 }

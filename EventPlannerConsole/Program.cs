@@ -12,9 +12,13 @@ namespace EventPlannerConsole
 
         static void Main(string[] args)
         {
-            Event asd = new Event();
+           
             dbInterface.DbConnect();
-            dbInterface.SaveEvent(asd);
+
+
+          
+            Console.WriteLine(dbInterface.GetEventIdByName("Eat while you workout"));
+
 
             Console.ReadLine();
         }
