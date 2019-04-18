@@ -14,17 +14,25 @@ namespace EventPlannerConsole
             _eventPlannerEngine = engine;
         }
 
-        public void ShowMenu(User user)
+        public void ShowMenu()
         {
-            if (user != null)
+            bool loggedIn = false;
+
+            while (loggedIn == false)
+            {
+                loggedIn = Login();
+            }
+
+            if (loggedIn == true)
             {
                 Console.WriteLine("This is menu");
             }
         }
 
-        public void Login()
+        public bool Login()
         {
             var credentials = new string[2];
+            var confirmed = false;
 
             Console.Write("Enter name:");
             var name = Console.ReadLine();
@@ -39,14 +47,17 @@ namespace EventPlannerConsole
             if (result == "Bad name")
             {
                 Console.WriteLine("Sorry, unfamiliar name");
-                Login();
             }
             else if (result == "Bad password")
             {
                 Console.WriteLine("Sorry, wrong password");
-                Login();
+            }
+            else
+            {
+                confirmed = true;
             }
 
+            return confirmed;
         }
     }
 }

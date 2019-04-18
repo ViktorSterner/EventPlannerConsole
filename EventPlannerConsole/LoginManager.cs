@@ -7,9 +7,17 @@ namespace EventPlannerConsole
 {
     public class LoginManager
     {
+        public DatabaseInterface dbInterface { get; set; }
+
+        public LoginManager(DatabaseInterface _dbInterface)
+        {
+            dbInterface = _dbInterface;
+        }
+
         public bool UserExists(string name)
         {
             // om nån i databasen har det här namnet return true
+            // dbInterface.GetUsers() lalala
             return false;
         }
 
