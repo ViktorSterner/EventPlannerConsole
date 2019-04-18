@@ -60,5 +60,90 @@ namespace EventPlannerConsole
             return confirmed;
         }
 
+        public Event CreateEvent()
+        {
+            Event newEvent = new Event();
+
+            Console.Write("Välj namn på Evenemanget: ");
+            newEvent.Name = Console.ReadLine();
+            Console.Write("Välj Tid för evenemanget: ");
+            newEvent.Time = DateTime.Parse(Console.ReadLine());
+
+            newEvent.Location = GetEventLocation();
+
+            CreateEventCategory();
+
+            CreateEventTickets();
+
+
+            return newEvent;
+
+        }
+
+        private EventCategory CreateEventCategory(int eventId)
+        {
+            EventCategory theEventCategory = new EventCategory();
+            int i = 0;
+
+            Console.Write("Välj ett kategori, eller skapa en ny kategori (För att skapa en ny kategori, skriv [ny]): ");
+
+            var categoryList = _eventPlannerEngine.dbInterface.GetCategories();
+
+            foreach (var category in categoryList)
+            {
+                Console.WriteLine($"{i + 1}: {category.Name}");
+                i++;
+            }
+
+            string answer = Console.ReadLine();
+            int intAnswer = 0;
+
+            if (answer.ToLower() == "ny")
+            {
+                //CreateNewCategory();
+                CreateEventCategory(eventId);
+            }
+            else
+            {
+                intAnswer = int.Parse(answer);
+                theEventCategory.Category = categoryList[intAnswer - 1];
+
+                theEventCategory.EventID = eventId;
+
+            }
+
+            return theEventCategory;    
+        }
+
+        private Location GetEventLocation()
+        {
+            int i = 0;
+            Location theLocation = new Location();
+            Console.Write("Välj ett plats, eller skapa en ny plats (För att skapa en ny plats, skriv [ny]): ");
+
+            var locationList = _eventPlannerEngine.dbInterface.GetLocations();
+            foreach (var location in locationList)
+            {
+                Console.WriteLine($"{i + 1}: {location.Name}");
+                i++;
+            }
+
+            string answer = Console.ReadLine();
+            int intAnswer = 0;
+
+            if (answer.ToLower() == "ny")
+            {
+                //CreateNewLocation();
+                GetEventLocation();
+            }
+            else
+            {
+                intAnswer = int.Parse(answer);
+                theLocation = locationList[intAnswer - 1];
+            }
+
+            return theLocation;
+        }
+
     }
 }

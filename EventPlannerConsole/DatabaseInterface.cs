@@ -85,6 +85,11 @@ namespace EventPlannerConsole
             return users;
         }
 
+        internal object Getcategories()
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Event> GetEvents()
         {
             List<Event> events = new List<Event>();
@@ -138,6 +143,31 @@ namespace EventPlannerConsole
             }
 
             return locations;
+        }
+
+        public List<Category> GetCategories()
+        {
+            List<Category> categories = new List<Category>();
+            String sqlQ = "SELECT * FROM [Category]";
+
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Category newCategory = new Category()
+                        {
+                            ID = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                        };
+
+                        categories.Add(newCategory);
+                    }
+                }
+            }
+
+            return categories;
         }
     }
 }
