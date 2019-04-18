@@ -10,7 +10,7 @@ namespace EventPlannerConsole
     public class DatabaseInterface
     {
         public string Source { get; set; } = "(LocalDB)\\MSSQLLocalDB";
-        public string User { get; set; } = "admin";
+        public string User { get; set; } = "sa";
         public string Password { get; set; } = "admin";
         public SqlConnection Connection { get; set; }
 
@@ -138,6 +138,27 @@ namespace EventPlannerConsole
             }
 
             return locations;
+        }
+
+        public void SaveEvent(Event _event)
+        {
+            //var locationID = _event.Location.ID;
+            //var time = _event.Time;
+            //var name = _event.Name;
+
+            var locationID = 9;
+            var time = DateTime.Now;
+            var name = "eventNAME";
+
+            string sqlQ = string.Format("INSERT into Event ([Name],LocationID,[Time]) VALUES ('{0}', '{1}','{2}')", name, locationID, time);
+        
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                // 4 rows effected
+                // command.ExecuteNonQuery();
+            }
+
+            
         }
     }
 }
