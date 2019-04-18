@@ -78,9 +78,9 @@ namespace EventPlannerConsole
 
             newEvent.Location = GetEventLocation();
 
-            CreateEventCategory();
+            //CreateEventCategory();
 
-            CreateEventTickets();
+            //CreateEventTickets();
 
 
             return newEvent;

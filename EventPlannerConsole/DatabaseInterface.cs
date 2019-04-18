@@ -156,7 +156,7 @@ namespace EventPlannerConsole
             var name = "eventNAME";
 
             string sqlQ = string.Format("INSERT into Event ([Name],LocationID,[Time]) VALUES ('{0}', '{1}','{2}')", name, locationID, time);
-        
+            
             using (SqlCommand command = new SqlCommand(sqlQ, Connection))
             {
                 // 4 rows effected
