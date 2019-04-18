@@ -10,8 +10,9 @@ namespace EventPlannerConsole
     public class DatabaseInterface
     {
         public string Source { get; set; } = "(LocalDB)\\MSSQLLocalDB";
-        public string User { get; set; } = "sa";
+        public string User { get; set; } = "admin";
         public string Password { get; set; } = "admin";
+        public string SQLQuery { get; set; }
 
         public void DbConnect()
         {
@@ -31,7 +32,7 @@ namespace EventPlannerConsole
             
                 connection.Open();
 
-                String sql = "SELECT * FROM Location";
+                String sql = "SELECT [User].[NAME] FROM [User];";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -39,7 +40,9 @@ namespace EventPlannerConsole
                     {
                         while (reader.Read())
                         {
-                            Console.WriteLine("\n{0} {1} {2}", reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
+                            Console.WriteLine("\n{0}", reader.GetString(0));
+
+                            //Console.WriteLine("\n{0} {1} {2}", reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
                         }
                     }
                 }
@@ -59,7 +62,7 @@ namespace EventPlannerConsole
         
         public List<User> GetUsers()
         {
-            throw new NotImplementedException();
+            
         }
 
         public List<Event> GetEvents()
