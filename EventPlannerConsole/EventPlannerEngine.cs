@@ -10,6 +10,12 @@ namespace EventPlannerConsole
         public User LoggedInUser { get; set; }
         public DatabaseInterface dbInterface { get; set; }
 
+        public EventPlannerEngine()
+        {
+            dbInterface = new DatabaseInterface();
+            dbInterface.DbConnect();
+        }
+
         public string Login(string name, string password)
         {
             var loginManager = new LoginManager(dbInterface);

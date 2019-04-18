@@ -9,10 +9,10 @@ namespace EventPlannerConsole
     {
         public EventPlannerEngine _eventPlannerEngine { get; set; } = new EventPlannerEngine();
 
-        public UserInterface(EventPlannerEngine engine)
-        {
-            _eventPlannerEngine = engine;
-        }
+        //public UserInterface(EventPlannerEngine engine)
+        //{
+        //    _eventPlannerEngine = engine;
+        //}
 
         public void ShowMenu()
         {
