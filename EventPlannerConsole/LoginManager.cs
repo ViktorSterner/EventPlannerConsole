@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace EventPlannerConsole
 {
@@ -16,15 +17,23 @@ namespace EventPlannerConsole
 
         public bool UserExists(string name)
         {
-            // om nån i databasen har det här namnet return true
-            // dbInterface.GetUsers() lalala
-            return false;
+            var users = dbInterface.GetUsers();
+            var result = users.Any(x => x.Name == name);            
+
+            return result;
         }
 
         public User CorrectPassword(string name, string password)
         {
-            // kolla om det matchar och skicka tillbaka rätt User annars null
-            return new User();
+            var users = dbInterface.GetUsers();
+            User user = users.FirstOrDefault(x => x.Name == name);
+
+            if (user.Password == password)
+            {
+                return user;
+            }
+
+            return null;
         }
     }
 }

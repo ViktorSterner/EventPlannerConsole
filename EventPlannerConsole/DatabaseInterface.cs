@@ -32,20 +32,18 @@ namespace EventPlannerConsole
             
                 Connection.Open();
 
-                String sql = "SELECT [User].[NAME] FROM [User];";
+                //String sql = "SELECT * FROM Location";
 
-                using (SqlCommand command = new SqlCommand(sql, Connection))
-                {
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            Console.WriteLine("\n{0}", reader.GetString(0));
-
-                            //Console.WriteLine("\n{0} {1} {2}", reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
-                        }
-                    }
-                }
+                //using (SqlCommand command = new SqlCommand(sql, Connection))
+                //{
+                //    using (SqlDataReader reader = command.ExecuteReader())
+                //    {
+                //        while (reader.Read())
+                //        {
+                //            Console.WriteLine("\n{0} {1} {2}", reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
+                //        }
+                //    }
+                //}
 
                 Console.WriteLine("Done.");
 
@@ -56,8 +54,8 @@ namespace EventPlannerConsole
                 Console.WriteLine(e.ToString());
             }
 
-            Console.WriteLine("All done. Press any key to finish...");
-            Console.ReadKey(true);
+            //Console.WriteLine("All done. Press any key to finish...");
+            //Console.ReadKey(true);
         }
 
         public List<User> GetUsers()
