@@ -12,7 +12,6 @@ namespace EventPlannerConsole
         public string Source { get; set; } = "(LocalDB)\\MSSQLLocalDB";
         public string User { get; set; } = "admin";
         public string Password { get; set; } = "admin";
-        public string SQLQuery { get; set; }
 
         public void DbConnect()
         {
@@ -27,14 +26,14 @@ namespace EventPlannerConsole
 
                 // Connect to SQL
                 Console.Write("Connecting to SQL Server ... ");
-                SqlConnection connection = new SqlConnection(builder.ConnectionString);
+                Connection = new SqlConnection(builder.ConnectionString);
                 
             
-                connection.Open();
+                Connection.Open();
 
                 String sql = "SELECT [User].[NAME] FROM [User];";
 
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                using (SqlCommand command = new SqlCommand(sql, Connection))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -62,7 +61,7 @@ namespace EventPlannerConsole
         
         public List<User> GetUsers()
         {
-            
+            throw new NotImplementedException();
         }
 
         public List<Event> GetEvents()

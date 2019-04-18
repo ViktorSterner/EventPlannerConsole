@@ -11,7 +11,7 @@ namespace EventPlannerConsole
 
         static void Main(string[] args)
         {
-            dbInterface.DbConnect();
+            ui.ShowMenu();
 
             Console.ReadLine();
         }
