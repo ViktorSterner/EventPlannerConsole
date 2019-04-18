@@ -25,7 +25,14 @@ namespace EventPlannerConsole
 
             if (loggedIn == true)
             {
-                Console.WriteLine("This is menu");
+                if (_eventPlannerEngine.LoggedInUser.Admin == true)
+                {
+                    Console.WriteLine("This is admin menu");
+                }
+                else
+                {
+                    Console.WriteLine("This is normal menu");
+                }
             }
         }
 
@@ -36,11 +43,11 @@ namespace EventPlannerConsole
 
             Console.Write("Enter name:");
             var name = Console.ReadLine();
-            credentials [0] = name;
+            credentials[0] = name;
 
             Console.Write("Enter password:");
             var password = Console.ReadLine();
-            credentials [1] = password;
+            credentials[1] = password;
 
             var result = _eventPlannerEngine.Login(name, password);
 

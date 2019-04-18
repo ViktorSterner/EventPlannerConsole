@@ -44,9 +44,11 @@ namespace EventPlannerConsole
 
         }
 
-        public void CreateEvent()
+        public void CreateEvent(Event _event)
         {
-
+            // Check if legit
+            dbInterface.SaveEvent(_event);
         }
+        
     }
 }
