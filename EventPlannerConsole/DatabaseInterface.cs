@@ -12,6 +12,7 @@ namespace EventPlannerConsole
         public string Source { get; set; } = "(LocalDB)\\MSSQLLocalDB";
         public string User { get; set; } = "sa";
         public string Password { get; set; } = "admin";
+        public SqlConnection Connection { get; set; }
 
         public void DbConnect()
         {
@@ -26,14 +27,14 @@ namespace EventPlannerConsole
 
                 // Connect to SQL
                 Console.Write("Connecting to SQL Server ... ");
-                SqlConnection connection = new SqlConnection(builder.ConnectionString);
+                Connection = new SqlConnection(builder.ConnectionString);
                 
             
-                connection.Open();
+                Connection.Open();
 
                 String sql = "SELECT * FROM Location";
 
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                using (SqlCommand command = new SqlCommand(sql, Connection))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -59,7 +60,29 @@ namespace EventPlannerConsole
         
         public List<User> GetUsers()
         {
-            throw new NotImplementedException();
+            List<User> users = new List<User>();
+            String sqlQ = "SELECT * FROM [User]";
+
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        User newUser = new User()
+                        {
+                            ID = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            Age = reader.GetInt32(2),
+                            Password = reader.GetString(3),
+                            Admin = reader.GetBoolean(4)
+                        };
+                        users.Add(newUser);                    
+                    }
+                }
+            }
+
+            return users;
         }
 
         public List<Event> GetEvents()
