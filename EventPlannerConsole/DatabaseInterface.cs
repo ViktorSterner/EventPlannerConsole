@@ -12,6 +12,7 @@ namespace EventPlannerConsole
         public string Source { get; set; } = "(LocalDB)\\MSSQLLocalDB";
         public string User { get; set; } = "admin";
         public string Password { get; set; } = "admin";
+        public SqlConnection Connection { get; set; }
 
         public void DbConnect()
         {
@@ -58,15 +59,87 @@ namespace EventPlannerConsole
             Console.WriteLine("All done. Press any key to finish...");
             Console.ReadKey(true);
         }
-        
+
         public List<User> GetUsers()
         {
-            throw new NotImplementedException();
+            List<User> users = new List<User>();
+            String sqlQ = "SELECT * FROM [User]";
+
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        User newUser = new User()
+                        {
+                            ID = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            Age = reader.GetInt32(2),
+                            Password = reader.GetString(3),
+                            Admin = reader.GetBoolean(4)
+                        };
+                        users.Add(newUser);
+                    }
+                }
+            }
+
+            return users;
         }
 
         public List<Event> GetEvents()
         {
-            throw new NotImplementedException();
+            List<Event> events = new List<Event>();
+            String sqlQ = "SELECT * FROM [Event]";
+
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Event newEvent = new Event()
+                        {
+                            ID = reader.GetInt32(0),
+                            LocationID = reader.GetInt32(1),
+                            Name = reader.GetString(2),
+                            Time = reader.GetDateTime(3)
+                        };
+
+                        events.Add(newEvent);
+                    }
+                }
+            }
+
+            return events;
+        }
+
+        public List<Location> GetLocations()
+        {
+            List<Location> locations = new List<Location>();
+            String sqlQ = "SELECT * FROM [Location]";
+
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Location newLocation = new Location()
+                        {
+                            ID = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            Adress = reader.GetString(2),
+                            Capacity = reader.GetInt32(3),
+                            Area = reader.GetString(4)
+                        };
+
+                        locations.Add(newLocation);
+                    }
+                }
+            }
+
+            return locations;
         }
     }
 }
