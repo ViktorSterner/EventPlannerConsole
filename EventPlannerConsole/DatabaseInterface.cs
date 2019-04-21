@@ -10,7 +10,7 @@ namespace EventPlannerConsole
     public class DatabaseInterface
     {
         public string Source { get; set; } = "(LocalDB)\\MSSQLLocalDB";
-        public string User { get; set; } = "admin";
+        public string User { get; set; } = "sa";
         public string Password { get; set; } = "admin";
         public SqlConnection Connection { get; set; }
 
@@ -56,6 +56,21 @@ namespace EventPlannerConsole
 
             //Console.WriteLine("All done. Press any key to finish...");
             //Console.ReadKey(true);
+        }
+
+        internal void SaveEventTicket(EventTicket _eventTicket)
+        {
+            var eventID = _eventTicket.EventID;
+            var price = _eventTicket.Price;
+            var active = _eventTicket.Active;
+
+            string sqlQ = string.Format("INSERT into EventTicket ([EventID],[Price],[Active]) VALUES ('{0}', '{1}','{2}')", eventID, price, active);
+
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                // 4 rows effected
+                // command.ExecuteNonQuery();
+            }
         }
 
         internal int GetEventIdByName(string name)

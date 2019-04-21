@@ -57,6 +57,16 @@ namespace EventPlannerConsole
             return dbInterface.GetEventIdByName(_event.Name);
         }
 
-        
+        internal void CreateEventTicket(int iD, double price)
+        {
+            EventTicket newEventTicket = new EventTicket()
+            {
+                ID = iD,
+                Price = price,
+                Active = true
+            };
+
+            dbInterface.SaveEventTicket(newEventTicket);
+        }
     }
 }

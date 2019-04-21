@@ -76,7 +76,7 @@ namespace EventPlannerConsole
             Console.Write("Välj Tid för evenemanget: ");
             newEvent.Time = DateTime.Parse(Console.ReadLine());
 
-            newEvent.Location = GetEventLocation();
+            newEvent.Location = SelectLocationFromDb();
 
             newEvent.ID = _eventPlannerEngine.CreateEvent(newEvent);
 
@@ -102,11 +102,31 @@ namespace EventPlannerConsole
                 }
             }
 
-            //CreateEventTickets(newEvent.ID);
+            CreateEventTickets(newEvent.ID);
 
 
             return newEvent;
 
+        }
+
+        private void CreateEventTickets(int iD)
+        {
+            Console.WriteLine($"Create ticket for event: {iD}.");
+            Console.Write("Price:");
+            double price = Convert.ToDouble(Console.ReadLine()); // Är float i DB
+            Console.Write("Amount:");
+            int amount = Convert.ToInt32(Console.ReadLine());
+
+            for (int i = 0; i < amount; i++)
+            {
+                _eventPlannerEngine.CreateEventTicket(iD, price);
+            }
+        }
+
+        // Om man inte vet vilket ID och vill välja från lista
+        private void CreateEventTickets()
+        {
+            throw new NotImplementedException();
         }
 
         private EventCategory CreateEventCategory(int eventId)
@@ -144,7 +164,7 @@ namespace EventPlannerConsole
             return theEventCategory;
         }
 
-        private Location GetEventLocation()
+        private Location SelectLocationFromDb()
         {
             int i = 0;
             Location theLocation = new Location();
@@ -163,7 +183,7 @@ namespace EventPlannerConsole
             if (answer.ToLower() == "ny")
             {
                 //CreateNewLocation();
-                GetEventLocation();
+                SelectLocationFromDb();
             }
             else
             {
