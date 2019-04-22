@@ -77,14 +77,13 @@ namespace EventPlannerConsole
             newEvent.Time = DateTime.Parse(Console.ReadLine());
 
             newEvent.Location = SelectLocationFromDb();
+            newEvent.LocationID = newEvent.Location.ID;
 
             newEvent.ID = _eventPlannerEngine.CreateEvent(newEvent);
-
-
-
+                       
             CreateEventCategory(newEvent.ID);
 
-            Console.WriteLine("Vill du lägga till en till kategori?");
+            Console.WriteLine("Vill du lägga till en till kategori? Enter [yes]");
 
             string answer = Console.ReadLine();
 
@@ -104,9 +103,8 @@ namespace EventPlannerConsole
 
             CreateEventTickets(newEvent.ID);
 
-
+            Console.WriteLine("Event created!");
             return newEvent;
-
         }
 
         private void CreateEventTickets(int iD)
@@ -171,6 +169,7 @@ namespace EventPlannerConsole
             Console.Write("Välj ett plats, eller skapa en ny plats (För att skapa en ny plats, skriv [ny]): ");
 
             var locationList = _eventPlannerEngine.dbInterface.GetLocations();
+
             foreach (var location in locationList)
             {
                 Console.WriteLine($"{i + 1}: {location.Name}");

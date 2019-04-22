@@ -170,7 +170,7 @@ namespace EventPlannerConsole
                             Adress = reader.GetString(2),
                             Capacity = reader.GetInt32(3),
                             Area = reader.GetString(4)
-                        };
+                        };                        
 
                         locations.Add(newLocation);
                     }
@@ -182,18 +182,21 @@ namespace EventPlannerConsole
 
         public void SaveEvent(Event _event)
         {
-            var locationID = _event.Location.ID;
+            var locationID = _event.LocationID;
             var time = _event.Time;
             var name = _event.Name;
 
-            string sqlQ = string.Format("INSERT into Event ([Name],LocationID,[Time]) VALUES ('{0}', '{1}','{2}')", name, locationID, time);
-            
+            string sqlQ = $"INSERT INTO Event ([Name],[LocationID],[Time]) VALUES ('{name}', '{locationID}','{time}')";
+            //string sqlQ = string.Format("INSERT into Event ([Name],LocationID,[Time]) values ('{0}', '{1}','{2}')", name, locationID, time);
+
             using (SqlCommand command = new SqlCommand(sqlQ, Connection))
             {
                 // 4 rows effected
-                // command.ExecuteNonQuery();
+                var x = command.ExecuteNonQuery(); // Kan vara så att man måste ha den här raden? :S
             }
-            
+
+
+
         }
 
         public List<Category> GetCategories()
