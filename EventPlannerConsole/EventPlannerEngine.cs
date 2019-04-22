@@ -61,12 +61,17 @@ namespace EventPlannerConsole
         {
             EventTicket newEventTicket = new EventTicket()
             {
-                ID = iD,
+                EventID = iD,
                 Price = price,
                 Active = true
             };
 
             dbInterface.SaveEventTicket(newEventTicket);
+        }
+
+        internal void CreateEventCategory(EventCategory newEventCategory)
+        {
+            dbInterface.SaveEventCategory(newEventCategory);
         }
     }
 }

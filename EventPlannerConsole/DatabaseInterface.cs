@@ -58,18 +58,34 @@ namespace EventPlannerConsole
             //Console.ReadKey(true);
         }
 
+        internal void SaveEventCategory(EventCategory newEventCategory)
+        {
+            var eventID = newEventCategory.EventID;
+            var categoryID = newEventCategory.Category.ID;
+
+            string sqlQ = $"INSERT into EventCategory ([EventID],[CategoryID]) VALUES ('{eventID}', '{categoryID}')";
+
+
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                // 4 rows effected raden
+                var x = command.ExecuteNonQuery();
+            }
+        }
+
         internal void SaveEventTicket(EventTicket _eventTicket)
         {
             var eventID = _eventTicket.EventID;
             var price = _eventTicket.Price;
             var active = _eventTicket.Active;
 
-            string sqlQ = string.Format("INSERT into EventTicket ([EventID],[Price],[Active]) VALUES ('{0}', '{1}','{2}')", eventID, price, active);
+            string sqlQ = $"INSERT into EventTicket ([EventID],[Price],[Active]) VALUES ('{eventID}', '{price}','{active}')";
+
 
             using (SqlCommand command = new SqlCommand(sqlQ, Connection))
             {
-                // 4 rows effected
-                // command.ExecuteNonQuery();
+                // 4 rows effected raden
+                var x = command.ExecuteNonQuery();
             }
         }
 

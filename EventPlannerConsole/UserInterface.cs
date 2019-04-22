@@ -8,12 +8,7 @@ namespace EventPlannerConsole
     public class UserInterface
     {
         public EventPlannerEngine _eventPlannerEngine { get; set; } = new EventPlannerEngine();
-
-        //public UserInterface(EventPlannerEngine engine)
-        //{
-        //    _eventPlannerEngine = engine;
-        //}
-
+        
         public void ShowMenu()
         {
             bool loggedIn = false;
@@ -83,7 +78,7 @@ namespace EventPlannerConsole
                        
             CreateEventCategory(newEvent.ID);
 
-            Console.WriteLine("Vill du lägga till en till kategori? Enter [yes]");
+            Console.WriteLine("Skriv yes för fler kategorier");
 
             string answer = Console.ReadLine();
 
@@ -103,11 +98,15 @@ namespace EventPlannerConsole
 
             CreateEventTickets(newEvent.ID);
 
-            Console.WriteLine("Event created!");
+            Console.WriteLine("Event skapat!");
             return newEvent;
         }
 
-        private void CreateEventTickets(int iD)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="iD">Event ID</param>
+        public void CreateEventTickets(int iD)
         {
             Console.WriteLine($"Create ticket for event: {iD}.");
             Console.Write("Price:");
@@ -127,12 +126,12 @@ namespace EventPlannerConsole
             throw new NotImplementedException();
         }
 
-        private EventCategory CreateEventCategory(int eventId)
+        public void CreateEventCategory(int eventId)
         {
-            EventCategory theEventCategory = new EventCategory();
+            EventCategory newEventCategory = new EventCategory();
             int i = 0;
 
-            Console.Write("Välj ett kategori, eller skapa en ny kategori (För att skapa en ny kategori, skriv [ny]): ");
+            Console.Write("Välj ett kategori, eller skriv [ny] för att skapa en ny");
 
             var categoryList = _eventPlannerEngine.dbInterface.GetCategories();
 
@@ -153,13 +152,12 @@ namespace EventPlannerConsole
             else
             {
                 intAnswer = int.Parse(answer);
-                theEventCategory.Category = categoryList[intAnswer - 1];
+                newEventCategory.Category = categoryList[intAnswer - 1];
 
-                theEventCategory.EventID = eventId;
-
+                newEventCategory.EventID = eventId;
             }
 
-            return theEventCategory;
+             _eventPlannerEngine.CreateEventCategory(newEventCategory);
         }
 
         private Location SelectLocationFromDb()
