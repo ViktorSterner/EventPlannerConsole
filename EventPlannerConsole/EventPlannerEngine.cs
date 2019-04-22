@@ -73,5 +73,15 @@ namespace EventPlannerConsole
         {
             dbInterface.SaveEventCategory(newEventCategory);
         }
+
+        internal void CreateCategory(string name)
+        {
+            dbInterface.SaveCategory(name);
+        }
+
+        internal void CreateLocation(Location newLocation)
+        {
+            dbInterface.SaveLocation(newLocation);
+        }
     }
 }

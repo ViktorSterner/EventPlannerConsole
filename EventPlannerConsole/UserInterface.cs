@@ -146,7 +146,7 @@ namespace EventPlannerConsole
 
             if (answer.ToLower() == "ny")
             {
-                //CreateNewCategory();
+                CreateNewCategory();
                 CreateEventCategory(eventId);
             }
             else
@@ -160,11 +160,20 @@ namespace EventPlannerConsole
              _eventPlannerEngine.CreateEventCategory(newEventCategory);
         }
 
-        private Location SelectLocationFromDb()
+        private void CreateNewCategory()
+        {
+            Console.WriteLine($"Create new category");
+            Console.Write("Category name:");
+            string name = Console.ReadLine();
+            _eventPlannerEngine.CreateCategory(name);
+            Console.WriteLine("Category created!");
+        }
+
+        public Location SelectLocationFromDb()
         {
             int i = 0;
             Location theLocation = new Location();
-            Console.Write("Välj ett plats, eller skapa en ny plats (För att skapa en ny plats, skriv [ny]): ");
+            Console.Write("Välj ett plats, eller skriv [ny] för att skapa en ny plats");
 
             var locationList = _eventPlannerEngine.dbInterface.GetLocations();
 
@@ -179,7 +188,7 @@ namespace EventPlannerConsole
 
             if (answer.ToLower() == "ny")
             {
-                //CreateNewLocation();
+                CreateNewLocation();
                 SelectLocationFromDb();
             }
             else
@@ -191,5 +200,28 @@ namespace EventPlannerConsole
             return theLocation;
         }
 
+        private void CreateNewLocation()
+        {
+            Console.WriteLine($"Create new location");
+            Console.Write("Location name:");
+            string name = Console.ReadLine();
+            Console.Write("Adress:");
+            string adress = Console.ReadLine();
+            Console.Write("Capacity:");
+            int capacity = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Area:");
+            string area = Console.ReadLine();
+
+            var newLocation = new Location()
+            {
+                Name = name,
+                Adress = adress,
+                Capacity = capacity,
+                Area = area
+            };
+            
+            _eventPlannerEngine.CreateLocation(newLocation);
+            Console.WriteLine("Location created!");
+        }
     }
 }

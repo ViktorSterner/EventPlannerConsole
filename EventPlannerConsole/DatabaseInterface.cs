@@ -64,8 +64,29 @@ namespace EventPlannerConsole
             var categoryID = newEventCategory.Category.ID;
 
             string sqlQ = $"INSERT into EventCategory ([EventID],[CategoryID]) VALUES ('{eventID}', '{categoryID}')";
+            
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                // 4 rows effected raden
+                var x = command.ExecuteNonQuery();
+            }
+        }
 
+        internal void SaveLocation(Location newLocation)
+        {
+            string sqlQ = $"INSERT into Location ([Name],[Adress],[Capacity],[Area]) VALUES ('{newLocation.Name}', '{newLocation.Adress}', '{newLocation.Capacity}', '{newLocation.Area}')";
+            
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                // 4 rows effected raden
+                var x = command.ExecuteNonQuery();
+            }
+        }
 
+        internal void SaveCategory(string name)
+        {
+            string sqlQ = $"INSERT into Category ([CategoryName]) VALUES ('{name}')";
+            
             using (SqlCommand command = new SqlCommand(sqlQ, Connection))
             {
                 // 4 rows effected raden
