@@ -12,7 +12,7 @@ namespace EventPlannerConsole
 
         static void Main(string[] args)
         {
-            ui.CreateEvent();
+            ui.ShowMenu();
 
             Console.ReadLine();
         }

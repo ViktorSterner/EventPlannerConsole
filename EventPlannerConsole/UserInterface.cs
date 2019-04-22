@@ -22,12 +22,45 @@ namespace EventPlannerConsole
             {
                 if (_eventPlannerEngine.LoggedInUser.Admin == true)
                 {
-                    Console.WriteLine("This is admin menu");
+                    ShowAdminMenu();
                 }
                 else
                 {
-                    Console.WriteLine("This is normal menu");
+                    ShowUserMenu();
                 }
+            }
+        }
+
+        private void ShowUserMenu()
+        {
+            Console.WriteLine("--- User menu ---");
+            Console.WriteLine("1. Here you cant do anything");
+
+            var input = Convert.ToInt32(Console.ReadLine());
+
+            switch (input)
+            {
+                case 1:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ShowAdminMenu()
+        {
+            Console.WriteLine("--- Admin menu ---");
+            Console.WriteLine("1. Create new event");
+
+            var input = Convert.ToInt32(Console.ReadLine());
+            
+            switch (input)
+            {
+                case 1:
+                    CreateEvent();
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -56,6 +89,7 @@ namespace EventPlannerConsole
             }
             else
             {
+                Console.WriteLine("Correct login");
                 confirmed = true;
             }
 
