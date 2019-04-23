@@ -103,6 +103,9 @@ namespace EventPlannerConsole
             Event pickedEvent = events[answer - 1];
 
             _eventPlannerEngine.BuyTicket(pickedEvent.ID);
+
+            Console.WriteLine($"Ticket bought by - {_eventPlannerEngine.LoggedInUser.Name} for -  {pickedEvent.Name}");
+
         }
 
         // Menu to show if admin
@@ -111,7 +114,7 @@ namespace EventPlannerConsole
             Console.WriteLine("--- Admin menu ---");
             Console.WriteLine("1. Create new event");
             Console.WriteLine("2. Show all events");
-            //Console.WriteLine("3. Create Tickets");
+            Console.WriteLine("3. Create Tickets");
 
             var input = Convert.ToInt32(Console.ReadLine());
 
@@ -124,7 +127,7 @@ namespace EventPlannerConsole
                     ShowAllEvents();
                     break;
                 case 3:
-                    //CreateEventTickets();
+                    CreateEventTickets(CreateEventTicketsSeparate().ID);
                     break;
                 default:
                     break;
@@ -219,7 +222,7 @@ namespace EventPlannerConsole
         /// <param name="iD">Event ID</param>
         public void CreateEventTickets(int iD)
         {
-            Console.WriteLine($"Create ticket for event: {iD}.");
+            Console.WriteLine($"---Create ticket for event: {iD}---");
             Console.Write("Price:");
             double price = Convert.ToDouble(Console.ReadLine()); // Är float i DB
             Console.Write("Amount of tickets:");
@@ -232,9 +235,18 @@ namespace EventPlannerConsole
         }
 
         // Om man inte vet vilket ID och vill välja från lista
-        private void CreateEventTickets()
+        private Event CreateEventTicketsSeparate()
         {
-            throw new NotImplementedException();
+            var events = _eventPlannerEngine.GetEvents();
+
+            Console.WriteLine("Choose event to create tickets to: ");
+            ShowAllEvents();
+
+            int answer = int.Parse(Console.ReadLine());
+
+            Event theEvent = events[answer - 1];
+
+            return theEvent;
         }
 
         /// <summary>

@@ -79,7 +79,7 @@ namespace EventPlannerConsole
         internal EventTicket GetActiveTicket(int iD)
         {
             EventTicket ticket = new EventTicket();
-            String sqlQ = $"SELECT * FROM [EventTicket] WHERE [EventID] = {iD} AND Active = 1";
+            String sqlQ = $"SELECT * FROM [EventTicket] WHERE [EventID] = {iD} AND Active = 1 AND [UserID] IS NULL";
 
             using (SqlCommand command = new SqlCommand(sqlQ, Connection))
             {

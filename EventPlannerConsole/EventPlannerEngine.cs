@@ -149,7 +149,6 @@ namespace EventPlannerConsole
             ticket.UserID = LoggedInUser.ID;
             ticket.PurchaseTime = DateTime.Now;
             DbInterface.UpdateTicket(ticket);
-            Console.WriteLine($"Köpt biljett för {ticket.EventID} - {ticket.UserID}");
         }
     }
 }
