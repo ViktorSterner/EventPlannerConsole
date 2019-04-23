@@ -77,7 +77,7 @@ namespace EventPlannerConsole
 
         internal void CreateUser(User user)
         {
-            dbInterface.SaveUserName(user);
+            DbInterface.SaveUser(user);
 
         }
 
@@ -94,7 +94,7 @@ namespace EventPlannerConsole
         public List<Event> GetEvents()
         {
             var events = DbInterface.GetAllEvents();
-            var locations = DbInterface.GetLocations();
+            var locations = DbInterface.GetAllLocations();
 
             foreach (var _event in events)
             {
@@ -110,11 +110,11 @@ namespace EventPlannerConsole
         /// <param name="iD">eVENT ID</param>
         internal void BuyTicket(int iD)
         {
-            EventTicket ticket = dbInterface.GetFirstActiveTicket(iD);
+            EventTicket ticket = DbInterface.GetActiveTicket(iD);
 
             ticket.UserID = LoggedInUser.ID;
             ticket.PurchaseTime = DateTime.Now;
-            dbInterface.UpdateTicket(ticket);
+            DbInterface.UpdateTicket(ticket);
             Console.WriteLine($"Köpt biljett för {ticket.EventID} - {ticket.UserID}");
         }
     }

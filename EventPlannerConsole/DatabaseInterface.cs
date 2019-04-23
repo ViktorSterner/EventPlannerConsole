@@ -10,7 +10,7 @@ namespace EventPlannerConsole
     public class DatabaseInterface
     {
         public string Source { get; set; } = "(LocalDB)\\MSSQLLocalDB";
-        public string User { get; set; } = "admin";
+        public string User { get; set; } = "sa";
         public string Password { get; set; } = "admin";
         public SqlConnection Connection { get; set; }
 
@@ -59,7 +59,7 @@ namespace EventPlannerConsole
             }
         }
 
-        internal void SaveUserName(User user)
+        internal void SaveUser(User user)
         {
             string sqlQ = $"INSERT into [User] ([Name], [Password], [Age], [Admin]) VALUES ('{user.Name}', '{user.Password}', '{user.Age}', '{user.Admin}')";
 
@@ -70,7 +70,7 @@ namespace EventPlannerConsole
             }
         }
 
-        internal EventTicket GetFirstActiveTicket(int iD)
+        internal EventTicket GetActiveTicket(int iD)
         {
             EventTicket ticket = new EventTicket();
             String sqlQ = $"SELECT * FROM [EventTicket] WHERE [EventID] = {iD} AND Active = 1";
@@ -161,7 +161,26 @@ namespace EventPlannerConsole
             return result;
         }
 
-        public List<User> GetUsers()
+        public void SaveEvent(Event _event)
+        {
+            var locationID = _event.LocationID;
+            var time = _event.Time;
+            var name = _event.Name;
+
+            string sqlQ = $"INSERT INTO Event ([Name],[LocationID],[Time]) VALUES ('{name}', '{locationID}','{time}')";
+            //string sqlQ = string.Format("INSERT into Event ([Name],LocationID,[Time]) values ('{0}', '{1}','{2}')", name, locationID, time);
+
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                // 4 rows effected
+                var x = command.ExecuteNonQuery();
+            }
+
+
+
+        }
+
+        public List<User> GetAllUsers()
         {
             List<User> users = new List<User>();
             String sqlQ = "SELECT * FROM [User]";
@@ -215,7 +234,7 @@ namespace EventPlannerConsole
             return events;
         }
 
-        public List<Location> GetLocations()
+        public List<Location> GetAllLocations()
         {
             List<Location> locations = new List<Location>();
             String sqlQ = "SELECT * FROM [Location]";
@@ -242,26 +261,7 @@ namespace EventPlannerConsole
 
             return locations;
         }
-
-        public void SaveEvent(Event _event)
-        {
-            var locationID = _event.LocationID;
-            var time = _event.Time;
-            var name = _event.Name;
-
-            string sqlQ = $"INSERT INTO Event ([Name],[LocationID],[Time]) VALUES ('{name}', '{locationID}','{time}')";
-            //string sqlQ = string.Format("INSERT into Event ([Name],LocationID,[Time]) values ('{0}', '{1}','{2}')", name, locationID, time);
-
-            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
-            {
-                // 4 rows effected
-                var x = command.ExecuteNonQuery();
-            }
-
-
-
-        }
-
+        
         public List<Category> GetAllCategories()
         {
             List<Category> categories = new List<Category>();

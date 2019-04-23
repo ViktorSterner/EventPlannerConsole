@@ -14,7 +14,7 @@ namespace EventPlannerConsole
             bool loggedIn = false;
             string answer = "";
 
-            answer = LoginOrCreateUserMenu();
+            answer = StartUpMenu();
             
             if (answer == "1")
             {
@@ -57,7 +57,7 @@ namespace EventPlannerConsole
             Console.WriteLine("User created!");
         }
 
-        private string LoginOrCreateUserMenu()
+        private string StartUpMenu()
         {
             Console.WriteLine("---Välkommen---");
             Console.WriteLine("1. Skapa ny användare");
@@ -232,7 +232,7 @@ namespace EventPlannerConsole
 
             Console.Write("Välj ett kategori, eller skriv [ny] för att skapa en ny");
 
-            var categoryList = _eventPlannerEngine.dbInterface.GetAllCategories();
+            var categoryList = _eventPlannerEngine.DbInterface.GetAllCategories();
 
             foreach (var category in categoryList)
             {
@@ -274,7 +274,7 @@ namespace EventPlannerConsole
             Location theLocation = new Location();
             Console.WriteLine("Välj ett plats, eller skriv [ny] för att skapa en ny plats");
 
-            var locationList = _eventPlannerEngine.DbInterface.GetLocations();
+            var locationList = _eventPlannerEngine.DbInterface.GetAllLocations();
 
             foreach (var location in locationList)
             {

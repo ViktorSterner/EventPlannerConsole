@@ -17,7 +17,7 @@ namespace EventPlannerConsole
 
         public bool UserExists(string name)
         {
-            var users = dbInterface.GetUsers();
+            var users = dbInterface.GetAllUsers();
             var result = users.Any(x => x.Name == name);            
 
             return result;
@@ -25,7 +25,7 @@ namespace EventPlannerConsole
 
         public User CorrectPassword(string name, string password)
         {
-            var users = dbInterface.GetUsers();
+            var users = dbInterface.GetAllUsers();
             User user = users.FirstOrDefault(x => x.Name == name);
 
             if (user.Password == password)
