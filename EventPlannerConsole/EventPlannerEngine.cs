@@ -75,6 +75,12 @@ namespace EventPlannerConsole
             dbInterface.SaveEventCategory(newEventCategory);
         }
 
+        internal void CreateUser(User user)
+        {
+            dbInterface.SaveUserName(user);
+
+        }
+
         internal void CreateCategory(string name)
         {
             dbInterface.SaveCategory(name);
@@ -96,6 +102,20 @@ namespace EventPlannerConsole
             }
 
             return events;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="iD">eVENT ID</param>
+        internal void BuyTicket(int iD)
+        {
+            EventTicket ticket = dbInterface.GetFirstActiveTicket(iD);
+
+            ticket.UserID = LoggedInUser.ID;
+            ticket.PurchaseTime = DateTime.Now;
+            dbInterface.UpdateTicket(ticket);
+            Console.WriteLine($"Köpt biljett för {ticket.EventID} - {ticket.UserID}");
         }
     }
 }

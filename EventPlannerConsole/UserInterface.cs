@@ -8,10 +8,18 @@ namespace EventPlannerConsole
     public class UserInterface
     {
         public EventPlannerEngine _eventPlannerEngine { get; set; } = new EventPlannerEngine();
-        
+
         public void ShowMenu()
         {
             bool loggedIn = false;
+            string answer = "";
+
+            answer = LoginOrCreateUserMenu();
+            
+            if (answer == "1")
+            {
+                CreateUser();
+            }
 
             while (loggedIn == false)
             {
@@ -31,20 +39,65 @@ namespace EventPlannerConsole
             }
         }
 
+        private void CreateUser()
+        {
+
+            User user = new User();
+            Console.WriteLine($"---Create new user---");
+            Console.Write("User name: ");
+            user.Name = Console.ReadLine();
+            Console.WriteLine("User password: ");
+            user.Password = Console.ReadLine();
+            Console.WriteLine("User age: ");
+            user.Age = int.Parse(Console.ReadLine());
+
+            user.Admin = false;
+            _eventPlannerEngine.CreateUser(user);
+
+            Console.WriteLine("User created!");
+        }
+
+        private string LoginOrCreateUserMenu()
+        {
+            Console.WriteLine("---Välkommen---");
+            Console.WriteLine("1. Skapa ny användare");
+            Console.WriteLine("2. Logga in");
+            string answer = Console.ReadLine();
+
+            return answer;
+        }
+
         private void ShowUserMenu()
         {
             Console.WriteLine("--- User menu ---");
-            Console.WriteLine("1. Here you cant do anything");
+            Console.WriteLine("1. Show all events");
+            Console.WriteLine("2. Buy Ticket");
 
             var input = Convert.ToInt32(Console.ReadLine());
 
             switch (input)
             {
                 case 1:
+                    ShowAllEvents();
+                    break;
+                case 2:
+                    BuyTicket();
                     break;
                 default:
                     break;
             }
+        }
+
+        private void BuyTicket()
+        {
+            Console.WriteLine("Pick event");
+            ShowAllEvents();
+            var events = _eventPlannerEngine.GetEvents();
+            int answer = int.Parse(Console.ReadLine());
+
+            Event pickedEvent = events[answer - 1];
+
+            _eventPlannerEngine.BuyTicket(pickedEvent.ID);
         }
 
         private void ShowAdminMenu()
@@ -52,9 +105,10 @@ namespace EventPlannerConsole
             Console.WriteLine("--- Admin menu ---");
             Console.WriteLine("1. Create new event");
             Console.WriteLine("2. Show all events");
+            Console.WriteLine("3. Create Tickets");
 
             var input = Convert.ToInt32(Console.ReadLine());
-            
+
             switch (input)
             {
                 case 1:
@@ -62,6 +116,9 @@ namespace EventPlannerConsole
                     break;
                 case 2:
                     ShowAllEvents();
+                    break;
+                case 3:
+                    //CreateEventTickets();
                     break;
                 default:
                     break;
@@ -72,7 +129,7 @@ namespace EventPlannerConsole
         {
             var credentials = new string[2];
             var confirmed = false;
-
+            Console.WriteLine("---Login---");
             Console.Write("Enter name:");
             var name = Console.ReadLine();
             credentials[0] = name;
@@ -113,7 +170,7 @@ namespace EventPlannerConsole
             newEvent.LocationID = newEvent.Location.ID;
 
             newEvent.ID = _eventPlannerEngine.CreateEvent(newEvent);
-                       
+
             CreateEventCategory(newEvent.ID);
 
             Console.WriteLine("Skriv yes för fler kategorier");
@@ -171,7 +228,7 @@ namespace EventPlannerConsole
 
             Console.Write("Välj ett kategori, eller skriv [ny] för att skapa en ny");
 
-            var categoryList = _eventPlannerEngine.dbInterface.GetCategories();
+            var categoryList = _eventPlannerEngine.dbInterface.GetAllCategories();
 
             foreach (var category in categoryList)
             {
@@ -193,9 +250,10 @@ namespace EventPlannerConsole
                 newEventCategory.Category = categoryList[intAnswer - 1];
 
                 newEventCategory.EventID = eventId;
+                _eventPlannerEngine.CreateEventCategory(newEventCategory);
+
             }
 
-             _eventPlannerEngine.CreateEventCategory(newEventCategory);
         }
 
         private void CreateNewCategory()
@@ -211,7 +269,7 @@ namespace EventPlannerConsole
         {
             int i = 0;
             Location theLocation = new Location();
-            Console.Write("Välj ett plats, eller skriv [ny] för att skapa en ny plats");
+            Console.WriteLine("Välj ett plats, eller skriv [ny] för att skapa en ny plats");
 
             var locationList = _eventPlannerEngine.dbInterface.GetLocations();
 
@@ -227,7 +285,7 @@ namespace EventPlannerConsole
             if (answer.ToLower() == "ny")
             {
                 CreateNewLocation();
-                SelectLocationFromDb();
+                theLocation = SelectLocationFromDb();
             }
             else
             {
@@ -257,7 +315,7 @@ namespace EventPlannerConsole
                 Capacity = capacity,
                 Area = area
             };
-            
+
             _eventPlannerEngine.CreateLocation(newLocation);
             Console.WriteLine("Location created!");
         }
@@ -265,11 +323,13 @@ namespace EventPlannerConsole
         public void ShowAllEvents()
         {
             var events = _eventPlannerEngine.GetEvents();
+            int i = 1;
 
             foreach (var _event in events)
             {
-                Console.WriteLine($"{_event.Name}\n{_event.Time}\n{_event.Location.Name} - {_event.Location.Adress}");
+                Console.WriteLine($"{i}. {_event.Name}\n{_event.Time}\n{_event.Location.Name} - {_event.Location.Adress}");
                 Console.WriteLine("--------");
+                i++;
             }
         }
 

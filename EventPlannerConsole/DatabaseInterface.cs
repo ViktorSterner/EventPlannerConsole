@@ -10,7 +10,7 @@ namespace EventPlannerConsole
     public class DatabaseInterface
     {
         public string Source { get; set; } = "(LocalDB)\\MSSQLLocalDB";
-        public string User { get; set; } = "sa";
+        public string User { get; set; } = "admin";
         public string Password { get; set; } = "admin";
         public SqlConnection Connection { get; set; }
 
@@ -32,19 +32,6 @@ namespace EventPlannerConsole
             
                 Connection.Open();
 
-                //String sql = "SELECT * FROM Location";
-
-                //using (SqlCommand command = new SqlCommand(sql, Connection))
-                //{
-                //    using (SqlDataReader reader = command.ExecuteReader())
-                //    {
-                //        while (reader.Read())
-                //        {
-                //            Console.WriteLine("\n{0} {1} {2}", reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
-                //        }
-                //    }
-                //}
-
                 Console.WriteLine("Done.");
 
             }
@@ -65,6 +52,50 @@ namespace EventPlannerConsole
 
             string sqlQ = $"INSERT into EventCategory ([EventID],[CategoryID]) VALUES ('{eventID}', '{categoryID}')";
             
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                // 4 rows effected raden
+                var x = command.ExecuteNonQuery();
+            }
+        }
+
+        internal void SaveUserName(User user)
+        {
+            string sqlQ = $"INSERT into [User] ([Name], [Password], [Age], [Admin]) VALUES ('{user.Name}', '{user.Password}', '{user.Age}', '{user.Admin}')";
+
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                // 4 rows effected raden
+                var x = command.ExecuteNonQuery();
+            }
+        }
+
+        internal EventTicket GetFirstActiveTicket(int iD)
+        {
+            EventTicket ticket = new EventTicket();
+            String sqlQ = $"SELECT * FROM [EventTicket] WHERE [EventID] = {iD} AND Active = 1";
+
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        ticket.ID = reader.GetInt32(0);
+                        ticket.EventID = reader.GetInt32(2);
+                        ticket.Price = reader.GetDouble(4);
+                        ticket.Active = reader.GetBoolean(5);
+                    }
+                }
+            }
+
+            return ticket;
+        }
+
+        internal void UpdateTicket(EventTicket ticket)
+        {
+            string sqlQ = $"UPDATE EventTicket SET [UserID] = {ticket.UserID}, [PurchaseTime] = '{ticket.PurchaseTime}' WHERE [ID] = {ticket.ID}";
+
             using (SqlCommand command = new SqlCommand(sqlQ, Connection))
             {
                 // 4 rows effected raden
@@ -157,11 +188,6 @@ namespace EventPlannerConsole
             return users;
         }
 
-        internal object Getcategories()
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Event> GetAllEvents()
         {
             List<Event> events = new List<Event>();
@@ -236,7 +262,7 @@ namespace EventPlannerConsole
 
         }
 
-        public List<Category> GetCategories()
+        public List<Category> GetAllCategories()
         {
             List<Category> categories = new List<Category>();
             String sqlQ = "SELECT * FROM [Category]";
