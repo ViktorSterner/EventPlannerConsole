@@ -10,11 +10,13 @@ namespace EventPlannerConsole
     {
         public DatabaseInterface dbInterface { get; set; }
 
+        // Set DbInterface 
         public LoginManager(DatabaseInterface _dbInterface)
         {
             dbInterface = _dbInterface;
         }
 
+        // Checks if user with name exists in DB and returns bool
         public bool UserExists(string name)
         {
             var users = dbInterface.GetAllUsers();
@@ -23,6 +25,7 @@ namespace EventPlannerConsole
             return result;
         }
 
+        // Checks if user with name and password exists and returns that user, else null
         public User CorrectPassword(string name, string password)
         {
             var users = dbInterface.GetAllUsers();
