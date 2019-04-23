@@ -189,6 +189,10 @@ namespace EventPlannerConsole
                     default:
                         break;
                 }
+
+                Console.WriteLine("Skriv yes för fler kategorier");
+
+                answer = Console.ReadLine();
             }
 
             CreateEventTickets(newEvent.ID);
@@ -251,7 +255,6 @@ namespace EventPlannerConsole
 
                 newEventCategory.EventID = eventId;
                 _eventPlannerEngine.CreateEventCategory(newEventCategory);
-
             }
 
         }
@@ -271,7 +274,7 @@ namespace EventPlannerConsole
             Location theLocation = new Location();
             Console.WriteLine("Välj ett plats, eller skriv [ny] för att skapa en ny plats");
 
-            var locationList = _eventPlannerEngine.dbInterface.GetLocations();
+            var locationList = _eventPlannerEngine.DbInterface.GetLocations();
 
             foreach (var location in locationList)
             {

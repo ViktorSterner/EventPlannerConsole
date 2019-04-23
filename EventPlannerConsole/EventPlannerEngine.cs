@@ -9,17 +9,17 @@ namespace EventPlannerConsole
     public class EventPlannerEngine
     {
         public User LoggedInUser { get; set; }
-        public DatabaseInterface dbInterface { get; set; }
+        public DatabaseInterface DbInterface { get; set; }
 
         public EventPlannerEngine()
         {
-            dbInterface = new DatabaseInterface();
-            dbInterface.DbConnect();
+            DbInterface = new DatabaseInterface();
+            DbInterface.DbConnect();
         }
 
         public string Login(string name, string password)
         {
-            var loginManager = new LoginManager(dbInterface);
+            var loginManager = new LoginManager(DbInterface);
             var outcome = "";
 
             if (loginManager.UserExists(name))
@@ -53,9 +53,9 @@ namespace EventPlannerConsole
         public int CreateEvent(Event _event)
         {
             // Check if legit
-            dbInterface.SaveEvent(_event);
+            DbInterface.SaveEvent(_event);
             
-            return dbInterface.GetEventIdByName(_event.Name);
+            return DbInterface.GetEventIdByName(_event.Name);
         }
 
         internal void CreateEventTicket(int iD, double price)
@@ -67,12 +67,12 @@ namespace EventPlannerConsole
                 Active = true
             };
 
-            dbInterface.SaveEventTicket(newEventTicket);
+            DbInterface.SaveEventTicket(newEventTicket);
         }
 
         internal void CreateEventCategory(EventCategory newEventCategory)
         {
-            dbInterface.SaveEventCategory(newEventCategory);
+            DbInterface.SaveEventCategory(newEventCategory);
         }
 
         internal void CreateUser(User user)
@@ -83,18 +83,18 @@ namespace EventPlannerConsole
 
         internal void CreateCategory(string name)
         {
-            dbInterface.SaveCategory(name);
+            DbInterface.SaveCategory(name);
         }
 
         internal void CreateLocation(Location newLocation)
         {
-            dbInterface.SaveLocation(newLocation);
+            DbInterface.SaveLocation(newLocation);
         }
 
         public List<Event> GetEvents()
         {
-            var events = dbInterface.GetAllEvents();
-            var locations = dbInterface.GetLocations();
+            var events = DbInterface.GetAllEvents();
+            var locations = DbInterface.GetLocations();
 
             foreach (var _event in events)
             {
