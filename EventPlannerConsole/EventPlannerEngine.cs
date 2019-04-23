@@ -138,6 +138,7 @@ namespace EventPlannerConsole
             return events;
         }
 
+        // Get events with available tickets from DB
         public List<Event> GetEventsWithAvailableTickets()
         {
             var events = DbInterface.GetAllEventsWithAvailableTickets();

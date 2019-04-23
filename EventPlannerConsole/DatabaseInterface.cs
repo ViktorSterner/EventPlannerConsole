@@ -122,6 +122,7 @@ namespace EventPlannerConsole
             }
         }
 
+        // Get all events that has an active ticket that does not have a user
         internal List<Event> GetAllEventsWithAvailableTickets()
         {
             List<Event> events = new List<Event>();

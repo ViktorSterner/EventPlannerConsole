@@ -6,14 +6,14 @@ namespace EventPlannerConsole
 {
     class Program
     {
-        //private static DatabaseInterface dbInterface = new DatabaseInterface();
-        //private static EventPlannerEngine engine = new EventPlannerEngine();
         private static UserInterface ui = new UserInterface();
 
         static void Main(string[] args)
         {
-            ui.ShowMenu();
+            // Set your database login in DatabaesInterface.cs
             
+            ui.ShowMenu();    
+
             Console.ReadLine();
         }
     }
