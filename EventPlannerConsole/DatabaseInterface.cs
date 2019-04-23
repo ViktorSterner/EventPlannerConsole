@@ -162,7 +162,7 @@ namespace EventPlannerConsole
             throw new NotImplementedException();
         }
 
-        public List<Event> GetEvents()
+        public List<Event> GetAllEvents()
         {
             List<Event> events = new List<Event>();
             String sqlQ = "SELECT * FROM [Event]";

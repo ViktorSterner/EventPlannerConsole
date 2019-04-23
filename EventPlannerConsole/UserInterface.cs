@@ -51,6 +51,7 @@ namespace EventPlannerConsole
         {
             Console.WriteLine("--- Admin menu ---");
             Console.WriteLine("1. Create new event");
+            Console.WriteLine("2. Show all events");
 
             var input = Convert.ToInt32(Console.ReadLine());
             
@@ -58,6 +59,9 @@ namespace EventPlannerConsole
             {
                 case 1:
                     CreateEvent();
+                    break;
+                case 2:
+                    ShowAllEvents();
                     break;
                 default:
                     break;
@@ -257,5 +261,18 @@ namespace EventPlannerConsole
             _eventPlannerEngine.CreateLocation(newLocation);
             Console.WriteLine("Location created!");
         }
+
+        public void ShowAllEvents()
+        {
+            var events = _eventPlannerEngine.GetEvents();
+
+            foreach (var _event in events)
+            {
+                Console.WriteLine($"{_event.Name}\n{_event.Time}\n{_event.Location.Name} - {_event.Location.Adress}");
+                Console.WriteLine("--------");
+            }
+        }
+
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using EventPlannerConsole.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EventPlannerConsole
@@ -82,6 +83,19 @@ namespace EventPlannerConsole
         internal void CreateLocation(Location newLocation)
         {
             dbInterface.SaveLocation(newLocation);
+        }
+
+        public List<Event> GetEvents()
+        {
+            var events = dbInterface.GetAllEvents();
+            var locations = dbInterface.GetLocations();
+
+            foreach (var _event in events)
+            {
+                _event.Location = locations.FirstOrDefault(x => x.ID == _event.LocationID);
+            }
+
+            return events;
         }
     }
 }
