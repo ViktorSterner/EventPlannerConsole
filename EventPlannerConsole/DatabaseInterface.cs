@@ -14,6 +14,7 @@ namespace EventPlannerConsole
         public string Password { get; set; } = "admin";
         public SqlConnection Connection { get; set; }
 
+        // Connect to database
         public void DbConnect()
         {
             try
@@ -28,8 +29,7 @@ namespace EventPlannerConsole
                 // Connect to SQL
                 Console.Write("Connecting to SQL Server ... ");
                 Connection = new SqlConnection(builder.ConnectionString);
-                
-            
+                            
                 Connection.Open();
 
                 Console.WriteLine("Done.");
@@ -40,11 +40,10 @@ namespace EventPlannerConsole
             {
                 Console.WriteLine(e.ToString());
             }
-
-            //Console.WriteLine("All done. Press any key to finish...");
-            //Console.ReadKey(true);
+            
         }
 
+        // Saves event to DB
         internal void SaveEventCategory(EventCategory newEventCategory)
         {
             var eventID = newEventCategory.EventID;
@@ -59,6 +58,7 @@ namespace EventPlannerConsole
             }
         }
 
+        // Saves user to DB
         internal void SaveUser(User user)
         {
             string sqlQ = $"INSERT into [User] ([Name], [Password], [Age], [Admin]) VALUES ('{user.Name}', '{user.Password}', '{user.Age}', '{user.Admin}')";
@@ -70,6 +70,11 @@ namespace EventPlannerConsole
             }
         }
 
+        /// <summary>
+        /// Gets a ticket from the DB
+        /// </summary>
+        /// <param name="iD">Event ID</param>
+        /// <returns>Matching Event</returns>
         internal EventTicket GetActiveTicket(int iD)
         {
             EventTicket ticket = new EventTicket();
@@ -92,6 +97,7 @@ namespace EventPlannerConsole
             return ticket;
         }
 
+        // Updating the UserID and PurchaseTime for a ticket
         internal void UpdateTicket(EventTicket ticket)
         {
             string sqlQ = $"UPDATE EventTicket SET [UserID] = {ticket.UserID}, [PurchaseTime] = '{ticket.PurchaseTime}' WHERE [ID] = {ticket.ID}";
@@ -103,6 +109,7 @@ namespace EventPlannerConsole
             }
         }
 
+        // Saves the location to the DB
         internal void SaveLocation(Location newLocation)
         {
             string sqlQ = $"INSERT into Location ([Name],[Adress],[Capacity],[Area]) VALUES ('{newLocation.Name}', '{newLocation.Adress}', '{newLocation.Capacity}', '{newLocation.Area}')";
@@ -114,6 +121,7 @@ namespace EventPlannerConsole
             }
         }
 
+        // Saves a new category to the DB
         internal void SaveCategory(string name)
         {
             string sqlQ = $"INSERT into Category ([CategoryName]) VALUES ('{name}')";
@@ -125,6 +133,7 @@ namespace EventPlannerConsole
             }
         }
 
+        // Saves EventTicket to DB
         internal void SaveEventTicket(EventTicket _eventTicket)
         {
             var eventID = _eventTicket.EventID;
@@ -141,6 +150,7 @@ namespace EventPlannerConsole
             }
         }
 
+        // Get eventID where name is name
         internal int GetEventIdByName(string name)
         {
             String sqlQ = $"SELECT [ID] FROM [Event] WHERE [Event].[Name] = '{name}'";
@@ -161,6 +171,7 @@ namespace EventPlannerConsole
             return result;
         }
 
+        // Saves event to DB
         public void SaveEvent(Event _event)
         {
             var locationID = _event.LocationID;
@@ -180,6 +191,10 @@ namespace EventPlannerConsole
 
         }
 
+        /// <summary>
+        /// Get all users from DB
+        /// </summary>
+        /// <returns>List of Users</returns>
         public List<User> GetAllUsers()
         {
             List<User> users = new List<User>();
@@ -207,6 +222,10 @@ namespace EventPlannerConsole
             return users;
         }
 
+        /// <summary>
+        /// Get all events from DB
+        /// </summary>
+        /// <returns>List of events</returns>
         public List<Event> GetAllEvents()
         {
             List<Event> events = new List<Event>();
@@ -234,6 +253,10 @@ namespace EventPlannerConsole
             return events;
         }
 
+        /// <summary>
+        /// Get all events from DB
+        /// </summary>
+        /// <returns>List of locations</returns>
         public List<Location> GetAllLocations()
         {
             List<Location> locations = new List<Location>();
@@ -262,6 +285,10 @@ namespace EventPlannerConsole
             return locations;
         }
         
+        /// <summary>
+        /// Get all categories
+        /// </summary>
+        /// <returns>List of categories</returns>
         public List<Category> GetAllCategories()
         {
             List<Category> categories = new List<Category>();

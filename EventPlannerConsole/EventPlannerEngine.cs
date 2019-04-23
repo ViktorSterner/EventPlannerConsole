@@ -11,6 +11,9 @@ namespace EventPlannerConsole
         public User LoggedInUser { get; set; }
         public DatabaseInterface DbInterface { get; set; }
 
+        /// <summary>
+        /// Creates a new
+        /// </summary>
         public EventPlannerEngine()
         {
             DbInterface = new DatabaseInterface();
