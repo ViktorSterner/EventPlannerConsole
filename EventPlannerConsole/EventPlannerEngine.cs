@@ -12,7 +12,7 @@ namespace EventPlannerConsole
         public DatabaseInterface DbInterface { get; set; }
 
         /// <summary>
-        /// Creates a new
+        /// Creates a new DatabaseInterface and connects to MSSQL-DB
         /// </summary>
         public EventPlannerEngine()
         {
@@ -20,6 +20,12 @@ namespace EventPlannerConsole
             DbInterface.DbConnect();
         }
 
+        /// <summary>
+        /// Takes name and password, sends to DbInterface for a check
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="password"></param>
+        /// <returns>Bad password or Bad name</returns>
         public string Login(string name, string password)
         {
             var loginManager = new LoginManager(DbInterface);
@@ -61,6 +67,11 @@ namespace EventPlannerConsole
             return DbInterface.GetEventIdByName(_event.Name);
         }
 
+        /// <summary>
+        /// Takes eventID and price and send to Dbinterface to save in DB
+        /// </summary>
+        /// <param name="iD">Event ID</param>
+        /// <param name="price"></param>
         internal void CreateEventTicket(int iD, double price)
         {
             EventTicket newEventTicket = new EventTicket()
@@ -73,17 +84,29 @@ namespace EventPlannerConsole
             DbInterface.SaveEventTicket(newEventTicket);
         }
 
+        /// <summary>
+        /// Takes new eventcategories and send to DbInterface to save to DB
+        /// </summary>
+        /// <param name="newEventCategory"></param>
         internal void CreateEventCategory(EventCategory newEventCategory)
         {
             DbInterface.SaveEventCategory(newEventCategory);
         }
 
+        /// <summary>
+        /// Takes user and send to DbInterface to save to DB
+        /// </summary>
+        /// <param name="user"></param>
         internal void CreateUser(User user)
         {
             DbInterface.SaveUser(user);
 
         }
 
+        /// <summary>
+        /// Takes category name and send to DbInterface  to save to DB
+        /// </summary>
+        /// <param name="name"></param>
         internal void CreateCategory(string name)
         {
             DbInterface.SaveCategory(name);

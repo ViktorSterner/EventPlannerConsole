@@ -26,9 +26,9 @@ namespace EventPlannerConsole
         public User CorrectPassword(string name, string password)
         {
             var users = dbInterface.GetAllUsers();
-            User user = users.FirstOrDefault(x => x.Name == name);
+            User user = users.FirstOrDefault(x => x.Name == name && x.Password == password);
 
-            if (user.Password == password)
+            if (user != null)
             {
                 return user;
             }
