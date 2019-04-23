@@ -138,6 +138,13 @@ namespace EventPlannerConsole
             return events;
         }
 
+        public List<Event> GetEventsWithAvailableTickets()
+        {
+            var events = DbInterface.GetAllEventsWithAvailableTickets();
+            
+            return events;
+        }
+
         /// <summary>
         /// Takes EventID, checks for tickets and updates the ticket with UserID and PurchaseTime = now
         /// </summary>

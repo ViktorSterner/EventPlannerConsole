@@ -96,8 +96,10 @@ namespace EventPlannerConsole
         private void BuyTicket()
         {
             Console.WriteLine("---Pick event---");
-            ShowAllEvents();
-            var events = _eventPlannerEngine.GetEvents();
+            //ShowAllEvents();
+            //var events = _eventPlannerEngine.GetEvents();
+            ShowAllEventsWithAvailableTickets();
+            var events = _eventPlannerEngine.GetEventsWithAvailableTickets();
             int answer = int.Parse(Console.ReadLine());
 
             Event pickedEvent = events[answer - 1];
@@ -362,6 +364,22 @@ namespace EventPlannerConsole
             foreach (var _event in events)
             {
                 Console.WriteLine($"{i}. {_event.Name}\n{_event.Time}\n{_event.Location.Name} - {_event.Location.Adress}");
+                Console.WriteLine("--------");
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Gets all events that has tickets to buy from DB and Write to Console
+        /// </summary>
+        public void ShowAllEventsWithAvailableTickets()
+        {
+            var events = _eventPlannerEngine.GetEventsWithAvailableTickets();
+            int i = 1;
+
+            foreach (var _event in events)
+            {
+                Console.WriteLine($"{i}. {_event.Name}");
                 Console.WriteLine("--------");
                 i++;
             }

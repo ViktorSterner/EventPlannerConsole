@@ -10,7 +10,7 @@ namespace EventPlannerConsole
     public class DatabaseInterface
     {
         public string Source { get; set; } = "(LocalDB)\\MSSQLLocalDB";
-        public string User { get; set; } = "admin";
+        public string User { get; set; } = "sa";
         public string Password { get; set; } = "admin";
         public SqlConnection Connection { get; set; }
 
@@ -120,6 +120,30 @@ namespace EventPlannerConsole
                 // 4 rows effected raden
                 var x = command.ExecuteNonQuery();
             }
+        }
+
+        internal List<Event> GetAllEventsWithAvailableTickets()
+        {
+            List<Event> events = new List<Event>();
+            String sqlQ = "SELECT [Event].ID, [Event].[Name], COUNT(EventTicket.ID) FROM[Event] JOIN[EventTicket] ON EventTicket.EventID = [Event].ID WHERE EventTicket.UserID IS NULL AND Active = 1 GROUP BY[Event].[ID], [Event].[Name];";
+
+            using (SqlCommand command = new SqlCommand(sqlQ, Connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Event newEvent = new Event()
+                        {
+                            ID = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                        };
+                        events.Add(newEvent);
+                    }
+                }
+            }
+
+            return events;
         }
 
         // Saves a new category to the DB
