@@ -9,6 +9,7 @@ namespace EventPlannerConsole
     {
         public EventPlannerEngine _eventPlannerEngine { get; set; } = new EventPlannerEngine();
 
+        // Shows StartUpMenu then login and shows correct menu
         public void ShowMenu()
         {
             bool loggedIn = false;
@@ -39,6 +40,7 @@ namespace EventPlannerConsole
             }
         }
 
+        // Creates user and sends to EventPlannerEngine
         private void CreateUser()
         {
 
@@ -57,6 +59,7 @@ namespace EventPlannerConsole
             Console.WriteLine("User created!");
         }
 
+        // Create new user or login
         private string StartUpMenu()
         {
             Console.WriteLine("---Välkommen---");
@@ -67,6 +70,7 @@ namespace EventPlannerConsole
             return answer;
         }
 
+        // Menu to show if not admin
         private void ShowUserMenu()
         {
             Console.WriteLine("--- User menu ---");
@@ -88,6 +92,7 @@ namespace EventPlannerConsole
             }
         }
 
+        // Buy ticket from list of events
         private void BuyTicket()
         {
             Console.WriteLine("Pick event");
@@ -100,6 +105,7 @@ namespace EventPlannerConsole
             _eventPlannerEngine.BuyTicket(pickedEvent.ID);
         }
 
+        // Menu to show if admin
         private void ShowAdminMenu()
         {
             Console.WriteLine("--- Admin menu ---");
@@ -125,6 +131,7 @@ namespace EventPlannerConsole
             }
         }
 
+        // Lets you enter username and password and check with loginMananger if correct
         public bool Login()
         {
             var credentials = new string[2];
@@ -157,6 +164,11 @@ namespace EventPlannerConsole
             return confirmed;
         }
 
+        /// <summary>
+        /// Creates event, eventcategories and eventtickets and sends to EventPlannerEngine
+        /// Can also create new location and create new category
+        /// </summary>
+        /// <returns>New event created</returns>
         public Event CreateEvent()
         {
             Event newEvent = new Event();
@@ -202,7 +214,7 @@ namespace EventPlannerConsole
         }
 
         /// <summary>
-        /// 
+        /// Create number of eventtickets for event with EventID ID
         /// </summary>
         /// <param name="iD">Event ID</param>
         public void CreateEventTickets(int iD)
@@ -225,6 +237,11 @@ namespace EventPlannerConsole
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Create eventcategory for event with EventID from list of categories
+        /// Can also create new category
+        /// </summary>
+        /// <param name="eventId">Event ID</param>
         public void CreateEventCategory(int eventId)
         {
             EventCategory newEventCategory = new EventCategory();
@@ -259,6 +276,9 @@ namespace EventPlannerConsole
 
         }
 
+        /// <summary>
+        /// Creates a new category to be used for events
+        /// </summary>
         private void CreateNewCategory()
         {
             Console.WriteLine($"Create new category");
@@ -268,6 +288,11 @@ namespace EventPlannerConsole
             Console.WriteLine("Category created!");
         }
 
+        /// <summary>
+        /// Select location from list of locations in DB
+        /// Can also create new location
+        /// </summary>
+        /// <returns></returns>
         public Location SelectLocationFromDb()
         {
             int i = 0;
@@ -299,6 +324,9 @@ namespace EventPlannerConsole
             return theLocation;
         }
 
+        /// <summary>
+        /// Creates new location and sends to EventPlannerEngine to save to DB
+        /// </summary>
         private void CreateNewLocation()
         {
             Console.WriteLine($"Create new location");
@@ -323,6 +351,9 @@ namespace EventPlannerConsole
             Console.WriteLine("Location created!");
         }
 
+        /// <summary>
+        /// Gets all events from DB and Write to Console
+        /// </summary>
         public void ShowAllEvents()
         {
             var events = _eventPlannerEngine.GetEvents();

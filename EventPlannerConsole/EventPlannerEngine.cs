@@ -104,7 +104,7 @@ namespace EventPlannerConsole
         }
 
         /// <summary>
-        /// Takes category name and send to DbInterface  to save to DB
+        /// Takes category name and send to DbInterface to save new category to DB
         /// </summary>
         /// <param name="name"></param>
         internal void CreateCategory(string name)
@@ -112,11 +112,19 @@ namespace EventPlannerConsole
             DbInterface.SaveCategory(name);
         }
 
+        /// <summary>
+        /// Takes location and send to DbInterface to save to DB
+        /// </summary>
+        /// <param name="newLocation"></param>
         internal void CreateLocation(Location newLocation)
         {
             DbInterface.SaveLocation(newLocation);
         }
 
+        /// <summary>
+        /// Get all events and set the correct location to the event
+        /// </summary>
+        /// <returns></returns>
         public List<Event> GetEvents()
         {
             var events = DbInterface.GetAllEvents();
@@ -131,7 +139,7 @@ namespace EventPlannerConsole
         }
 
         /// <summary>
-        /// 
+        /// Takes EventID, checks for tickets and updates the ticket with UserID and PurchaseTime = now
         /// </summary>
         /// <param name="iD">eVENT ID</param>
         internal void BuyTicket(int iD)
