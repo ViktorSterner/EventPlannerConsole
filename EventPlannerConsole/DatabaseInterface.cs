@@ -10,7 +10,7 @@ namespace EventPlannerConsole
     public class DatabaseInterface
     {
         public string Source { get; set; } = "(LocalDB)\\MSSQLLocalDB";
-        public string User { get; set; } = "sa";
+        public string User { get; set; } = "admin";
         public string Password { get; set; } = "admin";
         public SqlConnection Connection { get; set; }
 
@@ -73,6 +73,7 @@ namespace EventPlannerConsole
         /// <summary>
         /// Gets a ticket from the DB
         /// </summary>
+        /// 
         /// <param name="iD">Event ID</param>
         /// <returns>Matching Event</returns>
         internal EventTicket GetActiveTicket(int iD)

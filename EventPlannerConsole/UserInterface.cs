@@ -46,9 +46,9 @@ namespace EventPlannerConsole
             Console.WriteLine($"---Create new user---");
             Console.Write("User name: ");
             user.Name = Console.ReadLine();
-            Console.WriteLine("User password: ");
+            Console.Write("User password: ");
             user.Password = Console.ReadLine();
-            Console.WriteLine("User age: ");
+            Console.Write("User age: ");
             user.Age = int.Parse(Console.ReadLine());
 
             user.Admin = false;
@@ -59,9 +59,9 @@ namespace EventPlannerConsole
 
         private string StartUpMenu()
         {
-            Console.WriteLine("---Välkommen---");
-            Console.WriteLine("1. Skapa ny användare");
-            Console.WriteLine("2. Logga in");
+            Console.WriteLine("---Welcome---");
+            Console.WriteLine("1. Create new user");
+            Console.WriteLine("2. Log in");
             string answer = Console.ReadLine();
 
             return answer;
@@ -90,7 +90,7 @@ namespace EventPlannerConsole
 
         private void BuyTicket()
         {
-            Console.WriteLine("Pick event");
+            Console.WriteLine("---Pick event---");
             ShowAllEvents();
             var events = _eventPlannerEngine.GetEvents();
             int answer = int.Parse(Console.ReadLine());
@@ -105,7 +105,7 @@ namespace EventPlannerConsole
             Console.WriteLine("--- Admin menu ---");
             Console.WriteLine("1. Create new event");
             Console.WriteLine("2. Show all events");
-            Console.WriteLine("3. Create Tickets");
+            //Console.WriteLine("3. Create Tickets");
 
             var input = Convert.ToInt32(Console.ReadLine());
 
@@ -161,9 +161,9 @@ namespace EventPlannerConsole
         {
             Event newEvent = new Event();
 
-            Console.Write("Välj namn på Evenemanget: ");
+            Console.Write("Event name: ");
             newEvent.Name = Console.ReadLine();
-            Console.Write("Välj Tid för evenemanget: ");
+            Console.Write("Event date: ");
             newEvent.Time = DateTime.Parse(Console.ReadLine());
 
             newEvent.Location = SelectLocationFromDb();
@@ -173,7 +173,7 @@ namespace EventPlannerConsole
 
             CreateEventCategory(newEvent.ID);
 
-            Console.WriteLine("Skriv yes för fler kategorier");
+            Console.WriteLine("[yes] to add more categorie, [no] to continue");
 
             string answer = Console.ReadLine();
 
@@ -190,14 +190,14 @@ namespace EventPlannerConsole
                         break;
                 }
 
-                Console.WriteLine("Skriv yes för fler kategorier");
+                Console.WriteLine("[yes] to add more categorie, [no] to continue");
 
                 answer = Console.ReadLine();
             }
 
             CreateEventTickets(newEvent.ID);
 
-            Console.WriteLine("Event skapat!");
+            Console.WriteLine("Event created!");
             return newEvent;
         }
 
@@ -210,7 +210,7 @@ namespace EventPlannerConsole
             Console.WriteLine($"Create ticket for event: {iD}.");
             Console.Write("Price:");
             double price = Convert.ToDouble(Console.ReadLine()); // Är float i DB
-            Console.Write("Amount:");
+            Console.Write("Amount of tickets:");
             int amount = Convert.ToInt32(Console.ReadLine());
 
             for (int i = 0; i < amount; i++)
@@ -230,7 +230,7 @@ namespace EventPlannerConsole
             EventCategory newEventCategory = new EventCategory();
             int i = 0;
 
-            Console.Write("Välj ett kategori, eller skriv [ny] för att skapa en ny");
+            Console.Write("Choose a category, or type [new] to create a new one");
 
             var categoryList = _eventPlannerEngine.DbInterface.GetAllCategories();
 
@@ -243,7 +243,7 @@ namespace EventPlannerConsole
             string answer = Console.ReadLine();
             int intAnswer = 0;
 
-            if (answer.ToLower() == "ny")
+            if (answer.ToLower() == "new")
             {
                 CreateNewCategory();
                 CreateEventCategory(eventId);
@@ -272,7 +272,7 @@ namespace EventPlannerConsole
         {
             int i = 0;
             Location theLocation = new Location();
-            Console.WriteLine("Välj ett plats, eller skriv [ny] för att skapa en ny plats");
+            Console.Write("Choose a location, or type [new] to create a new one");
 
             var locationList = _eventPlannerEngine.DbInterface.GetAllLocations();
 
@@ -285,7 +285,7 @@ namespace EventPlannerConsole
             string answer = Console.ReadLine();
             int intAnswer = 0;
 
-            if (answer.ToLower() == "ny")
+            if (answer.ToLower() == "new")
             {
                 CreateNewLocation();
                 theLocation = SelectLocationFromDb();
