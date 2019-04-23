@@ -229,7 +229,7 @@ namespace EventPlannerConsole
             using (SqlCommand command = new SqlCommand(sqlQ, Connection))
             {
                 // 4 rows effected
-                var x = command.ExecuteNonQuery(); // Kan vara så att man måste ha den här raden? :S
+                var x = command.ExecuteNonQuery();
             }
 
 

@@ -8,7 +8,7 @@ namespace EventPlannerConsole
     public class UserInterface
     {
         public EventPlannerEngine _eventPlannerEngine { get; set; } = new EventPlannerEngine();
-        
+
         public void ShowMenu()
         {
             bool loggedIn = false;
@@ -54,7 +54,7 @@ namespace EventPlannerConsole
             Console.WriteLine("2. Show all events");
 
             var input = Convert.ToInt32(Console.ReadLine());
-            
+
             switch (input)
             {
                 case 1:
@@ -113,7 +113,7 @@ namespace EventPlannerConsole
             newEvent.LocationID = newEvent.Location.ID;
 
             newEvent.ID = _eventPlannerEngine.CreateEvent(newEvent);
-                       
+
             CreateEventCategory(newEvent.ID);
 
             Console.WriteLine("Skriv yes för fler kategorier");
@@ -132,6 +132,10 @@ namespace EventPlannerConsole
                     default:
                         break;
                 }
+
+                Console.WriteLine("Skriv yes för fler kategorier");
+
+                answer = Console.ReadLine();
             }
 
             CreateEventTickets(newEvent.ID);
@@ -171,7 +175,7 @@ namespace EventPlannerConsole
 
             Console.Write("Välj ett kategori, eller skriv [ny] för att skapa en ny");
 
-            var categoryList = _eventPlannerEngine.dbInterface.GetCategories();
+            var categoryList = _eventPlannerEngine.DbInterface.GetCategories();
 
             foreach (var category in categoryList)
             {
@@ -193,9 +197,9 @@ namespace EventPlannerConsole
                 newEventCategory.Category = categoryList[intAnswer - 1];
 
                 newEventCategory.EventID = eventId;
+                _eventPlannerEngine.CreateEventCategory(newEventCategory);
             }
 
-             _eventPlannerEngine.CreateEventCategory(newEventCategory);
         }
 
         private void CreateNewCategory()
@@ -213,7 +217,7 @@ namespace EventPlannerConsole
             Location theLocation = new Location();
             Console.Write("Välj ett plats, eller skriv [ny] för att skapa en ny plats");
 
-            var locationList = _eventPlannerEngine.dbInterface.GetLocations();
+            var locationList = _eventPlannerEngine.DbInterface.GetLocations();
 
             foreach (var location in locationList)
             {
@@ -227,7 +231,7 @@ namespace EventPlannerConsole
             if (answer.ToLower() == "ny")
             {
                 CreateNewLocation();
-                SelectLocationFromDb();
+                theLocation = SelectLocationFromDb();
             }
             else
             {
@@ -257,7 +261,7 @@ namespace EventPlannerConsole
                 Capacity = capacity,
                 Area = area
             };
-            
+
             _eventPlannerEngine.CreateLocation(newLocation);
             Console.WriteLine("Location created!");
         }
