@@ -10,7 +10,7 @@ namespace EventPlannerConsole
     public class DatabaseInterface
     {
         public string Source { get; set; } = "(LocalDB)\\MSSQLLocalDB";
-        public string User { get; set; } = "sa";
+        public string User { get; set; } = "admin";
         public string Password { get; set; } = "admin";
         public SqlConnection Connection { get; set; }
 
