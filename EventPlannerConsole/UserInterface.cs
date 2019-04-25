@@ -92,7 +92,7 @@ namespace EventPlannerConsole
             }
         }
 
-        // Buy ticket from list of events
+        // Buy ticket from list of events that have available tickets
         private void BuyTicket()
         {
             Console.WriteLine("---Pick event---");
@@ -261,7 +261,7 @@ namespace EventPlannerConsole
             EventCategory newEventCategory = new EventCategory();
             int i = 0;
 
-            Console.Write("Choose a category, or type [new] to create a new one");
+            Console.WriteLine("Choose a category, or type [new] to create a new one");
 
             var categoryList = _eventPlannerEngine.DbInterface.GetAllCategories();
 
@@ -311,7 +311,7 @@ namespace EventPlannerConsole
         {
             int i = 0;
             Location theLocation = new Location();
-            Console.Write("Choose a location, or type [new] to create a new one");
+            Console.WriteLine("Choose a location, or type [new] to create a new one");
 
             var locationList = _eventPlannerEngine.DbInterface.GetAllLocations();
 
